@@ -78,6 +78,7 @@ namespace BBDown
             public string FFmpegPath { get; set; } = "";
             public string Mp4boxPath { get; set; } = "";
             public string DelayPerPage { get; set; } = "0";
+            public string Output { get; set; } = "";
         }
 
         public static async Task<int> Main(params string[] args)
@@ -182,7 +183,10 @@ namespace BBDown
                     "设置mp4box的路径"),
                 new Option<string>(
                     new string[]{ "--delay-per-page"},
-                    "设置下载合集分P之间的下载间隔时间(单位: 秒, 默认无间隔)")
+                    "设置下载合集分P之间的下载间隔时间(单位: 秒, 默认无间隔)"),
+                new Option<string>(
+                    new string[]{ "--output" ,"-o"},
+                    "设置输出路径")
             };
 
             Command loginCommand = new Command(
@@ -357,6 +361,7 @@ namespace BBDown
                 int delay = Convert.ToInt32(myOption.DelayPerPage);
                 COOKIE = myOption.Cookie;
                 TOKEN = myOption.AccessToken.Replace("access_token=", "");
+                string output = myOption.Output;
 
                 if (!string.IsNullOrEmpty(myOption.WorkDir))
                 {
@@ -551,11 +556,11 @@ namespace BBDown
 
                     //处理文件夹以.结尾导致的异常情况
                     if (title.EndsWith(".")) title += "_fix";
-                    string outPath = GetValidFileName(title) + (pagesInfo.Count > 1 ? $"/[P{indexStr}]{GetValidFileName(p.title)}" : (vInfo.PagesInfo.Count > 1 ? $"[P{indexStr}]{GetValidFileName(p.title)}" : "")) + ".mp4";
+                    string outPath = output != "" ? output : GetValidFileName(title) + (pagesInfo.Count > 1 ? $"/[P{indexStr}]{GetValidFileName(p.title)}" : (vInfo.PagesInfo.Count > 1 ? $"[P{indexStr}]{GetValidFileName(p.title)}" : "")) + ".mp4";
                     if (!infoMode && File.Exists(outPath) && new FileInfo(outPath).Length != 0)
                     {
                         Log($"{outPath}已存在, 跳过下载...");
-                        if (pagesInfo.Count == 1 && Directory.Exists(p.aid)) 
+                        if (pagesInfo.Count == 1 && Directory.Exists(p.aid))
                         {
                             Directory.Delete(p.aid, true);
                         }
@@ -569,7 +574,7 @@ namespace BBDown
                         {
                             Directory.CreateDirectory(p.aid);
                         }
-                        if (!skipCover && !subOnly && !File.Exists($"{p.aid}/{p.aid}.jpg")) 
+                        if (!skipCover && !subOnly && !File.Exists($"{p.aid}/{p.aid}.jpg"))
                         {
                             Log("下载封面...");
                             var cover = pic == "" ? p.cover : pic;
@@ -617,12 +622,12 @@ namespace BBDown
                     (webJsonStr, videoTracks, audioTracks, clips, dfns) = await ExtractTracksAsync(onlyHevc, onlyAvc, aidOri, p.aid, p.cid, p.epid, tvApi, intlApi, appApi);
 
                     //File.WriteAllText($"debug.json", JObject.Parse(webJson).ToString());
-                    
+
 
                     //此处代码简直灾难，后续优化吧
                     if ((videoTracks.Count != 0 || audioTracks.Count != 0) && clips.Count == 0)   //dash
                     {
-                        if (webJsonStr.Contains("\"video\":[") && videoTracks.Count == 0) 
+                        if (webJsonStr.Contains("\"video\":[") && videoTracks.Count == 0)
                         {
                             LogError("没有找到符合要求的视频流");
                             if (!audioOnly) continue;
@@ -645,7 +650,7 @@ namespace BBDown
                         if (!hideStreams)
                         {
                             //展示所有的音视频流信息
-                            if (videoTracks.Count > 0) 
+                            if (videoTracks.Count > 0)
                             {
                                 Log($"共计{videoTracks.Count}条视频流.");
                                 int index = 0;
