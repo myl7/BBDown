@@ -1,5 +1,19 @@
 [![img](https://img.shields.io/github/stars/nilaoda/BBDown?label=%E7%82%B9%E8%B5%9E)](https://github.com/nilaoda/BBDown)  [![img](https://img.shields.io/github/last-commit/nilaoda/BBDown?label=%E6%9C%80%E8%BF%91%E6%8F%90%E4%BA%A4)](https://github.com/nilaoda/BBDown)  [![img](https://img.shields.io/github/release/nilaoda/BBDown?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC)](https://github.com/nilaoda/BBDown/releases)  [![img](https://img.shields.io/github/license/nilaoda/BBDown?label=%E8%AE%B8%E5%8F%AF%E8%AF%81)](https://github.com/nilaoda/BBDown)
 
+# 关于这个 Fork
+
+此 fork 增加的 features：
+
+- 增加 `-o, --output` 选项指定输出文件名（全名，包括扩展名）
+
+此 fork 的 master 分支将始终在 upstream/master 上构建，可以把这个 fork 看成一个 patch 来使用
+
+upstream 作者有意开发类 youtube-dl 的输出文件名模版，但久而未成，此 fork 是对有需求者的一个临时性解决方案。upstream 完成此功能后此 fork 将停止维护
+
+构建好的 BBDown 二进制文件可以在 Actions 里的 Artifacts 里找到（只有 linux 和 musl-linux）
+
+修改部分的代码（没几行）依然以 MIT 发布，如果你担心 license 问题的话
+
 # BBDown
 一款命令行式哔哩哔哩下载器. Bilibili Downloader.
 
