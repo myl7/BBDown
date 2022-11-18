@@ -8,7 +8,8 @@
 
 此 fork 的 master 分支将始终在 upstream/master 上构建，可以把这个 fork 看成一个 patch 来使用
 
-upstream 作者有意开发类 youtube-dl 的输出文件名模版，但久而未成，此 fork 是对有需求者的一个临时性解决方案。upstream 完成此功能后此 fork 将停止维护
+~~upstream 作者有意开发类 youtube-dl 的输出文件名模版，但久而未成，此 fork 是对有需求者的一个临时性解决方案。upstream 完成此功能后此 fork 将停止维护。~~
+upstream 作者已完成类 youtube-dl 输出文件名模版的开发，敬请选用 upstream。
 
 构建好的 BBDown 二进制文件可以在 Actions 里的 Artifacts 里找到（只有 linux 和 musl-linux）
 
